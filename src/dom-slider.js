@@ -1,3 +1,5 @@
+import './dom-slider.css';
+
 function slide(element, slideSpeed, direction, easing, delay) {
     // prevent user from sliding down if already sliding
     if(direction === 'down'
@@ -92,70 +94,19 @@ function slide(element, slideSpeed, direction, easing, delay) {
     return done
 }
 
-function printStyles() {
-    let hiddenElements;
-
-    function showContent() {
-        console.log('before print');
-        hiddenElements = document.querySelectorAll('.DOM-slider-hidden')
-        hiddenElements.forEach(element => {
-            element.classList.remove('DOM-slider-hidden')
-        })
-    }
-
-    function hideContent() {
-        console.log('after print');
-        hiddenElements.forEach(element => {
-            element.classList.add('DOM-slider-hidden')
-        })
-    }
-
-    window.onbeforeprint = showContent
-    window.onafterprint = hideContent
-
-    const mediaQueryList = window.matchMedia('print');
-    mediaQueryList.addListener(function(mql) {
-        if (mql.matches) {
-            showContent()
-            setTimeout(hideContent, 500)
-        };
-    });
+export const slideDown = function (element, speed, easing, delay) {
+    return slide(element, speed, 'down', easing, delay)
 }
 
-(function DOMsliderInit() {
-    const sheet = document.createElement('style')
-    sheet.id = 'slideCSSClasses'
-    sheet.innerHTML = `
-    .DOM-slider-hidden {
-        height: 0 !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        border-top-width: 0 !important;
-        border-bottom-width: 0 !important;
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
-        overflow: hidden !important;
+export const slideUp = function(element, speed, easing, delay) {
+    return slide(element, speed, 'up', easing, delay)
+}
+
+export const slideToggle = function(element, speed, easing, delay) {
+    if(element.classList.contains('DOM-slider-hidden')) {
+        return slide(element, speed, 'down', easing, delay)
     }
-    `
-    document.head.appendChild(sheet)
-
-    Object.prototype.slideDown = function (speed, easing, delay) {
-        return slide(this, speed, 'down', easing, delay)
+    else {
+        return slide(element, speed, 'up', easing, delay)
     }
-
-    Object.prototype.slideUp = function(speed, easing, delay) {
-        return slide(this, speed, 'up', easing, delay)
-    }
-
-    Object.prototype.slideToggle = function(speed, easing, delay) {
-        if(this.classList.contains('DOM-slider-hidden')) {
-            return slide(this, speed, 'down', easing, delay)
-        }
-        else {
-            return slide(this, speed, 'up', easing, delay)
-        }
-
-    }
-
-    printStyles()
-})()
+}
