@@ -5,14 +5,14 @@ function slide(element, slideSpeed, direction, easing, delay) {
     if(direction === 'down'
         && (
             [...element.classList].some(e => new RegExp(/setHeight/).test(e))
-            || !element.classList.contains('DOM-slider-hidden')
+            || !element.classList.contains('dom-slider-hidden')
         )
     ) return Promise.resolve()
 
     // prevent user from sliding up if already sliding
     if(direction === 'up'
         && (
-            element.classList.contains('DOM-slider-hidden')
+            element.classList.contains('dom-slider-hidden')
             || [...element.classList].some(e => new RegExp(/setHeight/).test(e))
         )
     ) return Promise.resolve()
@@ -42,7 +42,7 @@ function slide(element, slideSpeed, direction, easing, delay) {
         element.classList.add(`setHeight-${setHeightId}`)
     }
     else {
-        element.classList.add('DOM-slider-hidden', `setHeight-${setHeightId}`)
+        element.classList.add('dom-slider-hidden', `setHeight-${setHeightId}`)
     }
 
     s.transition = `all ${speed}ms ${easing || ''}`
@@ -55,13 +55,13 @@ function slide(element, slideSpeed, direction, easing, delay) {
                 // Don't know why, but waiting 10 milliseconds before adding
                 // the 'hidden' class when sliding up prevents height-jumping
                 setTimeout(function () {
-                    element.classList.add('DOM-slider-hidden')
+                    element.classList.add('dom-slider-hidden')
                     resolve()
                 }, delay ? +delay + 10 : 10)
             }
             else {
                 setTimeout(function () {
-                    element.classList.remove('DOM-slider-hidden')
+                    element.classList.remove('dom-slider-hidden')
                     resolve()
                 }, delay ? +delay + 10 : 10)
             }
@@ -103,7 +103,7 @@ export const slideUp = function(element, speed, easing, delay) {
 }
 
 export const slideToggle = function(element, speed, easing, delay) {
-    if(element.classList.contains('DOM-slider-hidden')) {
+    if(element.classList.contains('dom-slider-hidden')) {
         return slide(element, speed, 'down', easing, delay)
     }
     else {
